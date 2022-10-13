@@ -1,40 +1,60 @@
-
-// TODO: Insert your header.
+// Max Rivas
+// CPSC 120-01
+// 2022-10-13
+// Rivas.max11@csu.fullerton.edu
+// @Mrivas0331
+//
+// Lab 06-02
+// Partners: @brian-250
+//
+// User tries to guess the number 42
+//
 
 #include <cmath>
 #include <iostream>
 #include <string>
 
-// TODO: Declare a const int named kSecretNumber and initialize it to 42.
+const int kSecretNumber{42};
 
 int main(int argc, char const *argv[]) {
-  int guess = 0;
   int last_guess = 0;
-  std::string answer;
-
   std::cout << "Hi - I'm a computer and I've thought of a number between "
                "1 and 100.\n";
   std::cout << "Let's play a guessing game...\n";
-
-  // TODO: Write an loop that will continue until the player decides to quit
-  // TODO: Inside the loop, prompt the player for their guess
-  //       for example     std::cout << "What's your guess?> ";
-  //       If the player enters a number less than 1 or greater than 100, prompt
-  //       the player to enter a number again. You can do this with another
-  //       loop.
-  // TODO: Store the input from the keyboard into the variable guess
-  // TODO: Check to see if guess has the same value as kSecretNumber
-  //       If so, then the player has won and they can play again
-  //       Prompt the player if they would like to continue playing. If the
-  //       answer is "y" then restart the game. Otherwise, any other letter will
-  //       cause the game to end and the program to exit.
-  // TODO: Else, the player didn't win so they need to know if they are
-  //       getting warmer or colder.
-  //       Check to see if kSecretNumber - guess is less than kSecretNumber -
-  //       last_guess If it is, print you're getting warmer. Otherwise, print
-  //       you're getting colder.
-  // TODO: At the end of every iteration of the loop, save the current guess
-  //       into the variable last_guess.
-
+  bool is_game_over{false};
+  std::string input;
+  while (!is_game_over) {
+    std::cout << "What's your guess?> ";
+    std::cin >> input;
+    if (input == "n") {
+      is_game_over = true;
+    }
+    int number = std::stoi(input);
+    if ((number < 1) || (number > 100)) {
+      std::cout << "Please guess a number between 1 and 100.\n";
+    } else if ((number > 0) && (number < 101)) {
+      if (number == 42) {
+        std::cout << "Hooray! You guessed the secret number!!\n";
+        std::cout << "Do you want to play again? (y or n)> ";
+        std::string choice;
+        std::cin >> choice;
+        if (choice == "y") {
+          number = 0;
+          last_guess = 0;
+        } else {
+          is_game_over = true;
+        }
+      } else if (number != 42) {
+        std::cout << "Nope - that's not it.\n";
+        if (std::abs(kSecretNumber - number) <
+            std::abs(kSecretNumber - last_guess)) {
+          std::cout << "You're getting warmer!\n";
+        } else {
+          std::cout << "You're getting colder.\n";
+        }
+        last_guess = number;
+      }
+    }
+  }
   return 0;
 }
